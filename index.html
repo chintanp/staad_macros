@@ -60,9 +60,348 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					Slide 1	
+					<h1>STAAD Pro Macros </h1>
+					<h3>Manipulating the software - through the API</h3>
 				</section>
+				
+				<section>
+					<h3>First a quick look at the code</h3>
+					<!-- HTML generated using hilite.me --><div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #66d9ef">Sub</span> <span style="color: #a6e22e">Main</span><span style="color: #f8f8f2">()</span>
 
+<span style="color: #75715e">&#39;Try to make several STAAD files from the same file or make work easier</span>
+	<span style="color: #75715e">&#39;TODO: Add your code here</span>
+
+<span style="color: #75715e">&#39;Declare the variables</span>
+
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">objOpenSTAAD1</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Object</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">objOpenSTAAD2</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Object</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">strxAxis</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">String</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">stryAxis</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">String</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">strzAxis</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">String</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">SelBeamsNo</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Long</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">SelBeams()</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Long</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">bResult</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Boolean</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">propertyNo</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Long</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">wbk</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Variant</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">txt</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">String</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">Ydx</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Double</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">Zdx</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Double</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">Ydz</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Double</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">Zdz</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Double</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">EX1</span> <span style="color: #f92672">As</span>  <span style="color: #f8f8f2">Application</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">Book1</span> <span style="color: #f92672">As</span> <span style="color: #f8f8f2">Workbook</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">Sheet1</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Variant</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">EX2</span> <span style="color: #f92672">As</span>  <span style="color: #f8f8f2">Application</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">Book2</span> <span style="color: #f92672">As</span> <span style="color: #f8f8f2">Workbook</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">Sheet2</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Variant</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span> <span style="color: #66d9ef">To</span> <span style="color: #ae81ff">2</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Double</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">0</span> <span style="color: #66d9ef">To</span> <span style="color: #ae81ff">2</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Double</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span> <span style="color: #66d9ef">To</span> <span style="color: #ae81ff">2</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Double</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">bIncludePath</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Boolean</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">strFileName</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">String</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">pnResult</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Integer</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">i</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Integer</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">j</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Integer</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">S</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Integer</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">count</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Integer</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">OffZ</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Double</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">OffX</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Double</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">lSpecStartZ</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Integer</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">lSpecEndZ</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Integer</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">lSpecStartX</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Integer</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">lSpecEndX</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Integer</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">OffResult1</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Integer</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">OffResult2</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Integer</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">OffResult3</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Integer</span>
+<span style="color: #66d9ef">Dim</span> <span style="color: #f8f8f2">OffResult4</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Integer</span>
+
+
+<span style="color: #f8f8f2">count</span> <span style="color: #f92672">=</span><span style="color: #ae81ff">1</span>
+<span style="color: #f8f8f2">S</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">2</span>
+
+
+
+<span style="color: #75715e">&#39;Initialize the STAAD Appplication Object</span>
+<span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">objOpenSTAAD1</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">GetObject(</span> <span style="color: #f8f8f2">,</span> <span style="color: #e6db74">&quot;StaadPro.OpenSTAAD&quot;</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Retrieve the Filename of the currently open staad file with full path</span>
+<span style="color: #f8f8f2">bIncludePath</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">True</span>
+<span style="color: #f8f8f2">objOpenSTAAD1.GetSTAADFile</span> <span style="color: #f8f8f2">strFileName,</span> <span style="color: #f8f8f2">bIncludePath</span>
+
+
+<span style="color: #75715e">&#39;Initialize the variables with direction names</span>
+<span style="color: #f8f8f2">strxAxis</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;X&quot;</span>
+<span style="color: #f8f8f2">stryAxis</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;Y&quot;</span>
+<span style="color: #f8f8f2">strzAxis</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;Z&quot;</span>
+
+<span style="color: #75715e">&#39;Initialize the Excel Object</span>
+ <span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">EX1</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">CreateObject</span> <span style="color: #f8f8f2">(</span> <span style="color: #e6db74">&quot;Excel.Application&quot;</span><span style="color: #f8f8f2">)</span>
+
+ <span style="color: #f8f8f2">EX1.Visible</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">True</span>
+
+<span style="color: #75715e">&#39;Initialize the Workbook object</span>
+ <span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">Book1</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">EX1.Workbooks.Open(</span><span style="color: #e6db74">&quot;D:\Dropbox\structural engg\Thesis\CP thesis\Final Presentation\Results for all Load Combinations\beam_data.xlsx&quot;</span><span style="color: #f8f8f2">)</span>
+
+  <span style="color: #75715e">&#39;All the functions are available with Application Book</span>
+  <span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">Sheet1</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Book1.ActiveSheet</span>
+
+<span style="color: #75715e">&#39;Initialize the Excel Object</span>
+ <span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">EX2</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">CreateObject</span> <span style="color: #f8f8f2">(</span> <span style="color: #e6db74">&quot;Excel.Application&quot;</span><span style="color: #f8f8f2">)</span>
+
+ <span style="color: #f8f8f2">EX2.Visible</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">True</span>
+
+<span style="color: #75715e">&#39;Initialize the Workbook object</span>
+ <span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">Book2</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">EX2.Workbooks.Open(</span><span style="color: #e6db74">&quot;D:\Dropbox\structural engg\Thesis\CP thesis\Final Presentation\Results for all Load Combinations\result_data46_with_beam_offset.xlsx&quot;</span><span style="color: #f8f8f2">)</span>
+
+ <span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">Sheet2</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Book2.ActiveSheet</span>
+
+<span style="color: #66d9ef">For</span> <span style="color: #f8f8f2">i</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">1</span> <span style="color: #66d9ef">To</span> <span style="color: #ae81ff">9</span> <span style="color: #66d9ef">Step</span> <span style="color: #ae81ff">3</span>
+
+<span style="color: #66d9ef">For</span> <span style="color: #f8f8f2">j</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">i</span> <span style="color: #66d9ef">To</span> <span style="color: #f8f8f2">i</span><span style="color: #f92672">+</span><span style="color: #ae81ff">2</span> <span style="color: #66d9ef">Step</span> <span style="color: #ae81ff">1</span>
+
+	<span style="color: #75715e">&#39;Initialize the STAAD Appplication Object</span>
+<span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">objOpenSTAAD1</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">GetObject(</span> <span style="color: #f8f8f2">,</span> <span style="color: #e6db74">&quot;StaadPro.OpenSTAAD&quot;</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Retrieve the Filename of the currently open staad file with full path</span>
+<span style="color: #f8f8f2">bIncludePath</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">True</span>
+<span style="color: #f8f8f2">objOpenSTAAD1.GetSTAADFile</span> <span style="color: #f8f8f2">strFileName,</span> <span style="color: #f8f8f2">bIncludePath</span>
+
+
+	<span style="color: #75715e">&#39;objOpenSTAAD1.ShowApplication</span>
+
+   		<span style="color: #f8f8f2">Zdz</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Sheet1.Cells(j,</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span>
+   		<span style="color: #f8f8f2">Ydz</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Sheet1.Cells(j,</span> <span style="color: #ae81ff">2</span><span style="color: #f8f8f2">)</span>
+   		<span style="color: #f8f8f2">Zdx</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Sheet1.Cells(i,</span><span style="color: #ae81ff">3</span><span style="color: #f8f8f2">)</span>
+  		 <span style="color: #f8f8f2">Ydx</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Sheet1.Cells(i,</span><span style="color: #ae81ff">4</span><span style="color: #f8f8f2">)</span>
+
+
+
+<span style="color: #75715e">&#39;Select Members parallel to a certain direction</span>
+<span style="color: #f8f8f2">objOpenSTAAD1.View.SelectMembersParallelTo</span> <span style="color: #f8f8f2">(strzAxis)</span>
+
+<span style="color: #75715e">&#39;Get the number of selected Beams</span>
+<span style="color: #f8f8f2">SelBeamsNo</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Geometry.GetNoOfSelectedBeams</span>
+
+<span style="color: #75715e">&#39;Reallocate</span>
+<span style="color: #66d9ef">ReDim</span> <span style="color: #f8f8f2">SelBeams(SelBeamsNo</span><span style="color: #f92672">-</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Long</span>
+
+<span style="color: #75715e">&#39;Get the selected beams</span>
+<span style="color: #f8f8f2">objOpenSTAAD1.Geometry.GetSelectedBeams</span> <span style="color: #f8f8f2">(SelBeams,</span> <span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Set Material to Concrete</span>
+<span style="color: #f8f8f2">objOpenSTAAD1.Property.SetMaterialID</span> <span style="color: #ae81ff">2</span>
+
+<span style="color: #75715e">&#39;Create a new property</span>
+<span style="color: #f8f8f2">propertyNo</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Property.CreatePrismaticRectangleProperty</span> <span style="color: #f8f8f2">(Ydz,</span> <span style="color: #f8f8f2">Zdz)</span>
+
+<span style="color: #75715e">&#39;Assign the created property</span>
+<span style="color: #f8f8f2">bResult</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Property.AssignBeamProperty</span> <span style="color: #f8f8f2">(SelBeams,</span> <span style="color: #f8f8f2">propertyNo)</span>
+
+<span style="color: #75715e">&#39;Offset the Z Beams</span>
+<span style="color: #f8f8f2">OffZ</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">0.135</span><span style="color: #f92672">/</span><span style="color: #ae81ff">2</span> <span style="color: #f92672">-</span> <span style="color: #f8f8f2">Ydz</span><span style="color: #f92672">/</span><span style="color: #ae81ff">2</span>
+<span style="color: #f8f8f2">lSpecStartZ</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Property.CreateMemberOffsetSpec(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">0</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">0</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">OffZ,</span> <span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">lSpecEndZ</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Property.CreateMemberOffsetSpec(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">0</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">0</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">OffZ,</span> <span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">OffResult1</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Property.AssignMemberSpecToBeam(SelBeams,</span> <span style="color: #f8f8f2">lSpecStartZ)</span>
+<span style="color: #f8f8f2">OffResult2</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Property.AssignMemberSpecToBeam(SelBeams,</span> <span style="color: #f8f8f2">lSpecEndZ)</span>
+
+
+<span style="color: #75715e">&#39;Update Structure</span>
+<span style="color: #f8f8f2">objOpenSTAAD1.UpdateStructure</span>
+
+<span style="color: #75715e">&#39;Select Members parallel to a certain direction</span>
+<span style="color: #f8f8f2">objOpenSTAAD1.View.SelectMembersParallelTo</span> <span style="color: #f8f8f2">(strxAxis)</span>
+
+<span style="color: #75715e">&#39;Get the number of selected Beams</span>
+<span style="color: #f8f8f2">SelBeamsNo</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Geometry.GetNoOfSelectedBeams</span>
+
+<span style="color: #75715e">&#39;Reallocate</span>
+<span style="color: #66d9ef">ReDim</span> <span style="color: #f8f8f2">SelBeams(SelBeamsNo</span><span style="color: #f92672">-</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">As</span> <span style="color: #66d9ef">Long</span>
+
+<span style="color: #75715e">&#39;Get the selected beams</span>
+<span style="color: #f8f8f2">objOpenSTAAD1.Geometry.GetSelectedBeams</span> <span style="color: #f8f8f2">(SelBeams,</span> <span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Set Material to Concrete</span>
+<span style="color: #f8f8f2">objOpenSTAAD1.Property.SetMaterialID</span> <span style="color: #ae81ff">2</span>
+
+<span style="color: #75715e">&#39;Create a new property</span>
+<span style="color: #f8f8f2">propertyNo</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Property.CreatePrismaticRectangleProperty</span> <span style="color: #f8f8f2">(Ydx,</span> <span style="color: #f8f8f2">Zdx)</span>
+
+<span style="color: #75715e">&#39;Assign the created property</span>
+<span style="color: #f8f8f2">bResult</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Property.AssignBeamProperty</span> <span style="color: #f8f8f2">(SelBeams,</span> <span style="color: #f8f8f2">propertyNo)</span>
+
+<span style="color: #75715e">&#39;Offset the X Beams</span>
+<span style="color: #f8f8f2">OffX</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">0.135</span><span style="color: #f92672">/</span><span style="color: #ae81ff">2</span> <span style="color: #f92672">-</span> <span style="color: #f8f8f2">Ydx</span><span style="color: #f92672">/</span><span style="color: #ae81ff">2</span>
+<span style="color: #f8f8f2">lSpecStartX</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Property.CreateMemberOffsetSpec(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">0</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">0</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">OffX,</span> <span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">lSpecEndX</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Property.CreateMemberOffsetSpec(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">0</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">0</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">OffX,</span> <span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">OffResult3</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Property.AssignMemberSpecToBeam(SelBeams,</span> <span style="color: #f8f8f2">lSpecStartX)</span>
+<span style="color: #f8f8f2">OffResult4</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Property.AssignMemberSpecToBeam(SelBeams,</span> <span style="color: #f8f8f2">lSpecEndX)</span>
+
+<span style="color: #75715e">&#39;Update Structure</span>
+<span style="color: #f8f8f2">objOpenSTAAD1.UpdateStructure</span>
+
+<span style="color: #75715e">&#39; Set the analysis mode as slient</span>
+<span style="color: #f8f8f2">objOpenSTAAD1.SetSilentMode</span> <span style="color: #ae81ff">1</span>
+
+<span style="color: #75715e">&#39;Analyze the structure</span>
+<span style="color: #f8f8f2">objOpenSTAAD1.Analyze</span>
+
+<span style="color: #66d9ef">While</span> <span style="color: #ae81ff">1</span>
+	<span style="color: #f8f8f2">pnResult</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">objOpenSTAAD1.Output.AreResultsAvailable</span>
+	<span style="color: #66d9ef">If</span> <span style="color: #f8f8f2">pnResult</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">1</span> <span style="color: #66d9ef">Then</span>
+		<span style="color: #66d9ef">Exit</span> <span style="color: #66d9ef">While</span>
+	<span style="color: #66d9ef">End</span> <span style="color: #66d9ef">If</span>
+<span style="color: #66d9ef">Wend</span>
+
+<span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">objOpenSTAAD2</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">CreateObject(</span><span style="color: #e6db74">&quot;OpenSTAAD.Output.1&quot;</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #f8f8f2">objOpenSTAAD2.SelectSTAADFile</span> <span style="color: #f8f8f2">strFileName</span>
+
+<span style="color: #75715e">&#39;Writing the results in the Excel File</span>
+
+<span style="color: #75715e">&#39;Reading the results for specific plates</span>
+<span style="color: #75715e">&#39;Plate 2140 represents the Center Plate Load Case 7 represents No Load on Beams</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">2140</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">7</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Plate 2131 represents Mx- Load Case 7 represents No Load on Beams</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">2131</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">7</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Plate 1930 represents My- Load Case 7 represents No Load on Beams</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">1930</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">7</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+
+
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Ydz</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">2</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Zdz</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">3</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Ydx</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">4</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Zdx</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">7</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">14</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">21</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">28</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+
+ <span style="color: #75715e">&#39;Plate 2140 represents the Center Plate Load Case 8 represents Load on All X Beams</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">2140</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">8</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Plate 2131 represents Mx- Load Case 8 represents Load on All X Beams</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">2131</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">8</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Plate 1930 represents My- Load Case 8 represents Load on All X Beams</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">1930</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">8</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">8</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">15</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">22</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">29</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+
+  <span style="color: #75715e">&#39;Plate 2140 represents the Center Plate Load Case 9 represents Load on All Z Beams</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">2140</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">9</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Plate 2131 represents Mx- Load Case 9 represents Load on All Z Beams</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">2131</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">9</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Plate 1930 represents My- Load Case 9 represents Load on All Z Beams</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">1930</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">9</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+
+<span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">9</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">16</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">23</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">30</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+
+
+  <span style="color: #75715e">&#39;Plate 2140 represents the Center Plate Load Case 10 represents Line Load on one X Beam.</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">2140</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">10</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Plate 2131 represents Mx- Load Case 10 represents Line Load on one X Beam.</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">2131</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">10</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Plate 1930 represents My- Load Case 10 represents  Line Load on one X Beam.</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">1930</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">10</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+
+<span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">10</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">17</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">24</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">31</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+
+
+  <span style="color: #75715e">&#39;Plate 2140 represents the Center Plate Load Case 11 represents Line Load on one Z Beam.</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">2140</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">11</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Plate 2131 represents Mx- Load Case 11 represents Line Load on one Z Beam.</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">2131</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">11</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Plate 1930 represents My- Load Case 11 represents Line Load on one Z Beam.</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">1930</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">11</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+
+<span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">11</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">18</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">25</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">32</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+
+
+ <span style="color: #75715e">&#39;Plate 2140 represents the Center Plate Load Case 12 represents Line Load on one X and one Z Beam.</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">2140</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">12</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Plate 2131 represents Mx- Load Case 12 represents Line Load on one X and one Z Beam.</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">2131</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">12</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Plate 1930 represents My- Load Case 12 represents Line Load on one X and one Z Beam.</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">1930</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">12</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+
+<span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">12</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">19</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">26</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">33</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+
+
+ <span style="color: #75715e">&#39;Plate 2140 represents the Center Plate Load Case 13 represents Load on all Beams.</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">2140</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">13</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Plate 2131 represents Mx- Load Case 13 represents Load on all Beams.</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">2131</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">13</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">&#39;Plate 1930 represents My- Load Case 13 represents Load on all Beams.</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.GetAllPlateCenterMoments</span> <span style="color: #ae81ff">1930</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">13</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+
+
+<span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">13</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">20</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsPos(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">27</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsNegLong(</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+ <span style="color: #f8f8f2">Sheet2.Cells(S</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">j,</span><span style="color: #ae81ff">34</span><span style="color: #f8f8f2">).Value</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">plateCenterMomentsNegShort(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">*</span> <span style="color: #ae81ff">4.44</span>
+
+
+
+ <span style="color: #f8f8f2">Book2.Save</span>
+
+<span style="color: #75715e">&#39;Closes the link to analysis so the post processing results are unavailable</span>
+<span style="color: #f8f8f2">objOpenSTAAD2.CloseAnalysisLink</span>
+
+<span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">objOpenSTAAD1</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">Nothing</span>
+<span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">objOpenSTAAD2</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">Nothing</span>
+
+<span style="color: #75715e">&#39;count = count + 1</span>
+<span style="color: #66d9ef">Next</span>
+<span style="color: #f8f8f2">S</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">S</span> <span style="color: #f92672">+</span> <span style="color: #ae81ff">3</span>
+<span style="color: #75715e">&#39;count = 1</span>
+<span style="color: #66d9ef">Next</span>
+
+
+<span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">EX1</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">Nothing</span>
+<span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">Book1</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">Nothing</span>
+<span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">Sheet1</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">Nothing</span>
+<span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">EX2</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">Nothing</span>
+<span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">Book2</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">Nothing</span>
+<span style="color: #66d9ef">Set</span> <span style="color: #f8f8f2">Sheet2</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">Nothing</span>
+
+
+<span style="color: #66d9ef">End</span> <span style="color: #66d9ef">Sub</span>
+</pre></div>
+
+					
+				</section>
 
 			</div>
 
