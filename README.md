@@ -3,4 +3,9 @@ STAAD Macros
 
 STAAD Pro is a Bentley systems software, popular with Structural Designers for finite element analysis and design of structures based on various codes and standards. 
 
-Macros allow programmatic control of the software. 
+Macros allow programmatic control of the software from inside STAAD Pro. 
+
+Included code samples are written in VBA and are heavily commented to make the code easy to understand. 
+
+## A short introduction to OpenSTAAD (the STAAD API) can be found here: http://chintanp.github.io/staad_macros 
+
