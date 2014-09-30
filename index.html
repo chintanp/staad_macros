@@ -15,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="css/reveal.min.css">
-		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
 
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -61,7 +61,8 @@
 			<div class="slides">
 				<section>
 					<h1>STAAD Pro Macros </h1>
-					<h3>Manipulating the software - through the API</h3>
+					<p>Manipulating the software - through the API</p>
+					<h4>A SHORT INTRODUCTION</h4>
 				</section>
 				
 				<section>
@@ -73,12 +74,274 @@
 					<h3>Never saw an option for API in STAAD ?</h3>
 					<p>Trust me .... its there, </p>
 					<p><small>Have a look at the ->All Programs->Bentley Engineering->STAAD Pro V8i (or your version) and you will find a file called <strong>OpenSTAAD Reference Documentation</strong></small></p>
-					<img class="fragment" src="images/openstaad_main.jpg">
+					<img class="fragment" src="images/openstaad_main.png">
 
 				</section>
 				<section>
 					<h2>What is OpenSTAAD ?</h2>
-					<p><blockquote>OpenSTAAD is a library of exposed functions allowing engineers access to STAAD.Pro’s internal functions and routines as well as its graphical commands. </blockquote></p>
+					<p><blockquote>"OpenSTAAD is a library of exposed functions allowing engineers access to STAAD.Pro’s internal functions and routines as well as its graphical commands." </blockquote></p>
+				</section>
+
+				<section>
+					<h3>Functions, routines, commands ..???</h3>
+					<p>This is what programming is made of, apparently its more than just mouse clicks.</p>
+					<br>
+					<p> To learn programming, head over to:</p>
+					<ul>
+						<li><a href="www.codecademy.com/">www.codecademy.com/</a></li>
+						<li><a href="https://www.coursera.org/course/programming1">On Coursera</a></li>
+						<li><a href="https://www.khanacademy.org/computing/cs">On KHAN Academy</a></li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Language, Platform ?</h3>
+					<ul>
+						<li>Built on ATL COM and COM+ standards</li>
+						<li>Language: C, C++, VB, VBA, FORTRAN, Java, Delphi, C#</li>
+						<li>MS Windows, atleast upto Win - 7</li>
+					</ul>	
+				</section>
+
+				<section>
+					<h3>What all can this <strong>API</strong> do ?</h3>
+					<ul>
+						<li>STAAD File Input and Output (I/O)</li>
+						<li>Structure Geometry</li>
+						<li>Member Specifications</li>
+						<li>Properties</li>
+						<li>Loads</li>
+						<li>Output Results</li>
+						<ul>
+							<li>Nodes</li>
+							<li>Beams</li>
+							<li>Plates</li>
+							<li>Solids</li>
+						</ul>
+						<li>STAAD Pre-Processor</li>
+						<li>STAAD Post-Processor</li>
+						<li>Creating Dialog Boxes and Menu Items</li>
+				</section>
+
+				<section>
+					
+					<p><u>Refer code samples in the repository - <a href="https://github.com/chintanp/staad_macros/blob/master/Slab_various_load_combinations.vbs" target="_blank">1</a></u>
+					<br>
+					<br>
+				
+					<h4><strong>Step 1:</strong> Initializing OpenSTAAD Library </h4>
+					<br>
+					
+					<pre style="background:#002240;color:#fff">'Initialize <span style="color:#ff9d00">the</span> STAAD Appplication Object
+<span style="color:#ff9d00">Set</span> objOpenSTAAD1 <span style="color:#ff9d00">=</span> GetObject<span style="color:#e1efff">(</span> , <span style="color:#3ad900">"</span>StaadPro.OpenSTAAD<span style="color:#3ad900">"</span><span style="color:#e1efff">)</span>
+
+</pre>				<p>Or</p>
+
+					<pre style="background:#002240;color:#fff">'Initialize <span style="color:#ff9d00">the</span> STAAD results object
+<span style="color:#ff9d00">Set</span> objSTAADResults <span style="color:#ff9d00">=</span> CreateObject<span style="color:#e1efff">(</span><span style="color:#3ad900">"</span>OpenSTAAD.Output.1<span style="color:#3ad900">"</span><span style="color:#e1efff">)</span>
+
+</pre>				<br>
+					<p>Work on the former, if you want to work on the model and the latter if you just want to work on the results.</p>
+					<br>
+					
+					
+				</section>
+
+				<section>
+					
+					
+					<h4><strong>Step 2:</strong> Now do what the API lets you do </h4>
+					<br>
+					<p>For example,
+					<pre style="background:#002240;color:#fff"> 'Retrieve <span style="color:#ff9d00">the</span> Filename <span style="color:#ff9d00">of</span> <span style="color:#ff9d00">the</span> currently open staad <span style="color:#80ffbb">file</span> <span style="color:#ff9d00">with</span> full path
+ bIncludePath <span style="color:#ff9d00">=</span> <span style="color:#ff628c">True</span>
+ objOpenSTAAD1.GetSTAADFile strFileName, bIncludePath
+
+
+</pre>
+					<p align="left">Points to observe:</p>
+					<ul>
+						<li><strong>objOpenSTAAD1</strong> is the name of Application object we created previously.</li>
+						<li><strong>GetSTAADFile</strong> is the name of OpenSTAAD function</li>
+						<li>VBA is case-sensitive, so the function name, should appear as it is.</li>
+						<li><strong>strFileName & bIncludePath</strong> are variable names, that store the filename and function options</li>
+				</section>
+
+				<section>
+					<h4><strong>Root</strong> Functions</h4>
+					<br>
+					<ul align="left">
+						<li>Analyze</li>
+						<li>CloseSTAADFile</li>
+						<li>GetBaseUnit</li>
+						<li>GetInputUnitForForce</li>
+						<li>ShowApplication</li>
+						<li>UpdateStructure</li>
+
+					</ul>
+					<br>
+					<br>
+					<small>Subset selected	randomly to highlight the API</small>
+
+				</section>
+				
+				<section>
+					<h4><strong>Geometry</strong> Functions</h4>
+					<br>
+					<ul align="left">
+						<li>Geometry.AddBeam</li>
+						<li>Geometry.AddMultipleBeams</li>
+						<li>Geometry.AddMultipleNodes</li>
+						<li>Geometry.AddMultiplePlates</li>
+						<li>Geometry.DeleteBeam</li>
+						<li>Geometry.DeletePlate</li>
+						
+					</ul>
+					<br>
+					<br>
+					<small>Subset selected randomly to highlight the API</small>
+				</section>
+
+				<section>
+					<h4> <strong>View</strong> Functions</h4>
+					<br>
+					<ul align="left">
+						<li>View.CreateNewViewForSelections</li>
+						<li>View.HideAllMembers</li>
+						<li>View.HideEntity</li>
+						<li>View.HideMember</li>
+						<li>View.HidePlate</li>
+						<li>View.HideSolid</li>
+						
+					</ul>
+					<br>
+					<br>
+					<small>Subset selected randomly to highlight the API</small>
+
+				</section>
+
+				<section>
+					<h4><strong>Properties</strong> Functions</h4>
+					<br>
+					<ul align="left">
+						<li>Property.AssignBeamProperty</li>
+						<li>Property.AssignBetaAngle</li>
+						<li>Property.AssignPlateThickness</li>
+						<li>Property.CreateBeamPropertyFromTable</li>
+						<li>Property.CreateMemberCompressionSpec</li>
+						<li>Property.CreateMemberPartialReleaseSpec</li>
+						
+					</ul>
+					<br>
+					<br>
+					<small>Subset selected randomly to highlight the API</small>
+				</section>
+
+				<section>
+					<h4><strong>Loads</strong> Functions</h4>
+					<br>
+					<ul align="left">
+						<li>Load.AddElementPressure</li>
+						<li>Load.AddLoadAndFactorToCombination</li>
+						<li>Load.AddMemberConcForce</li>
+						<li>Load.AddMemberUniformMoment</li>
+						<li>Load.AddStrainLoad</li>
+						<li>Load.GetActiveLoad</li>
+						
+					</ul>
+					<br>
+					<br>
+					<small>Subset selectedrandomly to highlight the API</small>
+				</section>
+
+				<section>
+					<h4> <strong>Supports</strong> Functions</h4>
+					<br>
+					<ul align="left">
+						<li>Support.AssignSupportToNode</li>
+						<li>Support.CreateSupportFixed</li>
+						<li>Support.GetSupportCount</li>
+						<li>Support.GetSupportNodes</li>
+						<li>Support.GetSupportType</li>
+					</ul>
+					<br>
+					<br>
+					<small>Subset selected randomly to highlight the API</small>
+						
+				</section>
+
+				<section>
+					<h4><strong>Command</strong> Functions</h4>
+					<br>
+					<ul align="left">
+						<li>Command.CreateSteelDesignCommand</li>
+						<li>Command.PerformAnalysis</li>
+						<li>Command.PerformPDeltaAnalysisConverge</li>
+						<li>Command.PerformPDeltaAnalysisNoConverge</li>
+					</ul>
+						
+				</section>
+
+				<section>
+					<h4> <strong>Output Results</strong> Functions</h4>
+					<br>
+					<ul align="left">
+						<li>Output.GetAllPlateCenterForces</li>
+						<li>Output.GetAllPlateCenterMoments</li>
+						<li>Output.GetAllPlateCenterStressesAndMoments</li>
+						<li>Output.GetAllSolildNormalStresses</li>
+						<li>Output.GetIntermediateMemberForcesAtDistance</li>
+						<li>Output.GetMemberEndForces</li>
+						
+					</ul>
+					<br>
+					<br>
+					<small>Subset selected	randomly to highlight the API</small>
+				</section>
+
+						
+				<section>
+					<h4> <strong>Results Table</strong> Functions</h4>
+					<br>
+					<ul align="left">
+						<li>Table.AddTable</li>
+						<li>Table.CreateReport</li>
+						<li>Table.DeleteTable</li>
+					</ul>
+					<br>
+					<br>
+					<small>Subset selected randomly to highlight the API</small>	
+				</section>
+
+				<section>
+					<h4>You can even link other applications</h4>
+					<br>
+					<p>Create a handle for an MS Excel spreadsheet, allowing to use <i>Excel</i> data, or send data to <i>Excel</i>. </p>
+					<br>
+					<br>
+					<pre style="background:#002240;color:#fff"> 'Initialize <span style="color:#ff9d00">the</span> Excel Object
+ <span style="color:#ff9d00">Set</span> EX1 <span style="color:#ff9d00">=</span> CreateObject <span style="color:#e1efff">(</span> <span style="color:#3ad900">"</span>Excel.Application<span style="color:#3ad900">"</span><span style="color:#e1efff">)</span>
+
+</pre>			
+
+				</section>
+
+				<section>
+					<h3> Final Comments</h3>
+					<ul>
+						<li class="fragment">OpenSTAAD API is quite exhaustive</li>
+						<li class="fragment">Can be used to automate repititive tasks</li>
+						<li class="fragment">Can be used to pipe data in or out form other applications</li>
+				</section>
+
+				<section>
+					<h2>References</h2>
+					<ul>
+						<li><a href="http://communities.bentley.com/cfs-file.ashx/__key/telligent-evolution-components-attachments/13-275895-00-00-00-24-18-55/OpenSTAAD_5F00_Reference_5F00_V8i.pdf">OpenSTAAD User Manual</a></li>
+						<p>includes all functions in the API with examples
+						<li><a href="http://communities.bentley.com/products/structural/structural_analysis___design/f/5932.aspx">Bentley Product Community Forum</a></li>
+					</ul>
+				</section>
 			</div>
 
 		</div>
