@@ -9,3 +9,7 @@ Included code samples are written in VBA and are heavily commented to make the c
 
 ## A short introduction to OpenSTAAD (the STAAD API) can be found here: http://chintanp.github.io/staad_macros 
 
+Edit: Added files beam_data.xlsx and std model referred in the code. 
+
+### Ask me questions related to code in the issues: https://github.com/chintanp/staad_macros/issues
+
